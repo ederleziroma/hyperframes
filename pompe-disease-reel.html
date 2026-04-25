@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enfermedad de Pompe - Reel Informativo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        /* Base / Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Contenedor Principal de la Composición */
+        [data-composition-id="pompe-reel"] {
+            width: 1080px;
+            height: 1920px;
+            position: relative;
+            background: #0f172a;
+            overflow: hidden;
+        }
+
+        /* Escenas / Clips */
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 80px;
+            opacity: 0; /* Controlado por GSAP */
+            text-align: center;
+        }
+
+        /* Tipografía basada en DESIGN.md */
+        h1 {
+            font-size: 110px;
+            line-height: 1.1;
+            margin-bottom: 60px;
+            font-weight: 800;
+            color: #38bdf8;
+        }
+
+        .highlight {
+            color: #f472b6;
+        }
+
+        p {
+            font-size: 54px;
+            line-height: 1.4;
+            color: #94a3b8;
+        }
+
+        .icon {
+            font-size: 240px;
+            margin-bottom: 80px;
+        }
+
+        /* Componentes de Síntomas */
+        .symptoms-list {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            width: 100%;
+            margin-top: 60px;
+        }
+
+        .symptom-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 12px solid #38bdf8;
+            padding: 50px;
+            border-radius: 0 30px 30px 0;
+            text-align: left;
+        }
+
+        .symptom-item h3 {
+            font-size: 60px;
+            color: #f8fafc;
+            margin-bottom: 10px;
+        }
+
+        .symptom-item p {
+            font-size: 44px;
+            color: #94a3b8;
+        }
+
+        /* Barra de Progreso */
+        .progress-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+    <div 
+        data-composition-id="pompe-reel" 
+        data-width="1080" 
+        data-height="1920" 
+        data-start="0" 
+        data-duration="24"
+    >
+        <div class="progress-container">
+            <div class="progress-fill"></div>
+        </div>
+
+        <!-- Escena 1: Intro -->
+        <div id="scene-intro" class="scene">
+            <div class="icon">🧬</div>
+            <h1>¿Qué es la Enfermedad de <span class="highlight">Pompe</span>?</h1>
+            <p>Un trastorno genético que afecta los músculos.</p>
+        </div>
+
+        <!-- Escena 2: Explicación -->
+        <div id="scene-cause" class="scene">
+            <div class="icon">🧪</div>
+            <h1>La Causa</h1>
+            <p>Falta de la enzima <span class="highlight">GAA</span>.</p>
+            <p style="margin-top: 40px;">Sin ella, el glucógeno daña las células musculares.</p>
+        </div>
+
+        <!-- Escena 3: Síntomas -->
+        <div id="scene-symptoms" class="scene">
+            <h1 style="font-size: 90px; margin-bottom: 40px;">Señales de Alerta</h1>
+            <div class="symptoms-list">
+                <div class="symptom-item">
+                    <h3>💪 Debilidad</h3>
+                    <p>Dificultad al caminar o subir.</p>
+                </div>
+                <div class="symptom-item">
+                    <h3>🫁 Respiración</h3>
+                    <p>Cansancio al respirar.</p>
+                </div>
+                <div class="symptom-item">
+                    <h3>👶 Bebés</h3>
+                    <p>Debilidad extrema y corazón grande.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Escena 4: Cierre -->
+        <div id="scene-cta" class="scene">
+            <div class="icon">🤝</div>
+            <h1>Actúa a Tiempo</h1>
+            <p>El diagnóstico precoz cambia vidas.</p>
+            <p style="margin-top: 100px; color: #38bdf8; font-weight: 700;">Comparte y conciencia.</p>
+        </div>
+    </div>
+
+    <script>
+        const mainTl = gsap.timeline({ paused: true });
+        
+        // Registro obligatorio
+        window.__timelines = window.__timelines || {};
+        window.__timelines["pompe-reel"] = mainTl;
+
+        // Tiempos de las escenas
+        const times = {
+            intro: 0,
+            cause: 6,
+            symptoms: 12,
+            cta: 19
+        };
+
+        // Animación de Barra de Progreso
+        mainTl.to(".progress-fill", { width: "100%", duration: 24, ease: "none" }, 0);
+
+        // Escena 1: INTRO (0-6s)
+        mainTl.to("#scene-intro", { opacity: 1, duration: 0.5 }, times.intro);
+        mainTl.from("#scene-intro .icon", { scale: 0, rotation: -20, duration: 1, ease: "back.out(1.7)" }, times.intro + 0.3);
+        mainTl.from("#scene-intro h1", { y: 100, opacity: 0, duration: 0.8, ease: "power3.out" }, times.intro + 0.5);
+        mainTl.from("#scene-intro p", { y: 50, opacity: 0, duration: 0.8 }, times.intro + 0.8);
+        mainTl.to("#scene-intro", { opacity: 0, duration: 0.5 }, times.cause - 0.5);
+
+        // Escena 2: CAUSE (6-12s)
+        mainTl.to("#scene-cause", { opacity: 1, duration: 0.5 }, times.cause);
+        mainTl.from("#scene-cause .icon", { scale: 0.8, opacity: 0, duration: 0.8, ease: "power2.out" }, times.cause + 0.3);
+        mainTl.from("#scene-cause h1", { x: -50, opacity: 0, duration: 0.8 }, times.cause + 0.5);
+        mainTl.from("#scene-cause p", { stagger: 0.3, opacity: 0, y: 30, duration: 0.8 }, times.cause + 0.8);
+        mainTl.to("#scene-cause", { opacity: 0, duration: 0.5 }, times.symptoms - 0.5);
+
+        // Escena 3: SYMPTOMS (12-19s)
+        mainTl.to("#scene-symptoms", { opacity: 1, duration: 0.5 }, times.symptoms);
+        mainTl.from("#scene-symptoms h1", { scale: 0.9, opacity: 0, duration: 0.8 }, times.symptoms + 0.3);
+        mainTl.from("#scene-symptoms .symptom-item", { 
+            x: -100, 
+            opacity: 0, 
+            stagger: 0.5, 
+            duration: 0.8, 
+            ease: "power3.out" 
+        }, times.symptoms + 0.6);
+        mainTl.to("#scene-symptoms", { opacity: 0, duration: 0.5 }, times.cta - 0.5);
+
+        // Escena 4: CTA (19-24s)
+        mainTl.to("#scene-cta", { opacity: 1, duration: 0.5 }, times.cta);
+        mainTl.from("#scene-cta .icon", { y: -30, repeat: 3, yoyo: true, duration: 1, ease: "sine.inOut" }, times.cta + 0.3);
+        mainTl.from("#scene-cta h1", { zoom: 1.5, opacity: 0, duration: 1 }, times.cta + 0.5);
+        mainTl.from("#scene-cta p", { opacity: 0, duration: 1 }, times.cta + 0.8);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pompe: Reel Safe Zone</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa-mexicano: #D81B60;
+            --amarillo-vibrante: #FFD600;
+            --cian-mex: #0091EA;
+            --azul-profundo: #102A43;
+            --bg-paper: #FFFFFF;
+            --grid-line: rgba(16, 42, 67, 0.08);
+            
+            /* Márgenes de Seguridad para Reel */
+            --safe-top: 220px;
+            --safe-bottom: 450px;
+            --safe-sides: 120px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--azul-profundo); /* Fondo exterior */
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Composición con marco de seguridad visual */
+        [data-composition-id="pompe-reel"] {
+            width: 1080px;
+            height: 1920px;
+            background-color: var(--bg-paper);
+            background-image: 
+                linear-gradient(var(--grid-line) 2px, transparent 2px),
+                linear-gradient(90deg, var(--grid-line) 2px, transparent 2px);
+            background-size: 60px 60px;
+            position: relative;
+        }
+
+        /* La Escena ahora respeta los Safe Areas */
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: var(--safe-top) var(--safe-sides) var(--safe-bottom) var(--safe-sides);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centra el contenido en el espacio seguro */
+            align-items: flex-start;
+            opacity: 0;
+        }
+
+        /* Títulos Rótulo */
+        .rotulo-main {
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 110px;
+            line-height: 0.9;
+            color: var(--azul-profundo);
+            background: var(--amarillo-vibrante);
+            padding: 25px;
+            border: 8px solid var(--azul-profundo);
+            box-shadow: 15px 15px 0px var(--rosa-mexicano);
+            width: 100%;
+            text-align: left;
+        }
+
+        .rotulo-banner {
+            background: var(--rosa-mexicano);
+            color: white;
+            padding: 15px 40px;
+            font-size: 45px;
+            font-weight: 800;
+            display: inline-block;
+            border: 6px solid var(--azul-profundo);
+            margin-top: -10px;
+            margin-left: 20px;
+        }
+
+        /* Tarjeta de Información */
+        .info-card {
+            background: white;
+            border: 6px solid var(--azul-profundo);
+            padding: 50px;
+            margin-top: 60px;
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+
+        .info-card p {
+            font-size: 48px;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+
+        .highlight { background: var(--amarillo-vibrante); padding: 0 10px; }
+        .highlight-pink { background: var(--rosa-mexicano); color: white; padding: 0 10px; }
+
+        /* Lista de Síntomas */
+        .symptom-row {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .num {
+            background: var(--cian-mex);
+            color: white;
+            font-size: 60px;
+            font-weight: 900;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid var(--azul-profundo);
+            flex-shrink: 0;
+        }
+
+        .text {
+            font-size: 45px;
+            font-weight: 700;
+            border-bottom: 5px solid var(--azul-profundo);
+            flex-grow: 1;
+            padding-bottom: 10px;
+        }
+
+        /* Progreso */
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            background: var(--rosa-mexicano);
+            width: 0%;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div 
+        data-composition-id="pompe-reel" 
+        data-width="1080" 
+        data-height="1920" 
+        data-start="0" 
+        data-duration="24"
+    >
+        <div class="progress-bar"></div>
+
+        <!-- Escena 1 -->
+        <div id="scene-intro" class="scene">
+            <h1 class="rotulo-main">ENFERMEDAD<br>DE POMPE</h1>
+            <div class="rotulo-banner">LO QUE DEBES SABER 🧬</div>
+            
+            <div class="info-card">
+                <p>
+                    Es un trastorno <span class="highlight">GENÉTICO</span> que debilita los <span class="highlight-pink">MÚSCULOS</span> de forma progresiva.
+                </p>
+            </div>
+        </div>
+
+        <!-- Escena 2 -->
+        <div id="scene-cause" class="scene">
+            <h1 class="rotulo-main" style="background: var(--cian-mex); color: white;">¿POR QUÉ<br>SUCEDE? 🧪</h1>
+            <div class="info-card">
+                <p>Cuerpo sin enzima <span class="highlight">GAA</span>.</p>
+                <div style="margin: 30px 0; border-top: 4px dashed var(--azul-profundo);"></div>
+                <p style="font-size: 42px;">El <span class="highlight">GLUCÓGENO</span> se acumula y daña las células.</p>
+            </div>
+        </div>
+
+        <!-- Escena 3 -->
+        <div id="scene-symptoms" class="scene" style="justify-content: flex-start;">
+            <div class="rotulo-banner" style="margin: 0 0 60px 0; font-size: 55px;">SÍNTOMAS 🚨</div>
+            
+            <div class="symptom-row">
+                <div class="num">01</div>
+                <div class="text">DEBILIDAD MUSCULAR 💪</div>
+            </div>
+            <div class="symptom-row">
+                <div class="num" style="background: var(--rosa-mexicano);">02</div>
+                <div class="text">DIFICULTAD RESPIRATORIA 🫁</div>
+            </div>
+            <div class="symptom-row">
+                <div class="num" style="background: var(--amarillo-vibrante); color: black;">03</div>
+                <div class="text">CORAZÓN AGRANDADO ❤️</div>
+            </div>
+        </div>
+
+        <!-- Escena 4 -->
+        <div id="scene-cta" class="scene" style="align-items: center; text-align: center;">
+            <div style="font-size: 300px; margin-bottom: 40px;">🩺</div>
+            <h1 class="rotulo-main" style="text-align: center;">¡COMPARTE!</h1>
+            <p style="font-size: 50px; margin-top: 40px; font-weight: 800; color: var(--rosa-mexicano);">EL TIEMPO ES VIDA</p>
+            <div class="info-card" style="margin-top: 40px; padding: 30px;">
+                <p style="font-size: 36px;">Acude a un especialista hoy mismo.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainTl = gsap.timeline({ paused: true });
+        window.__timelines = window.__timelines || {};
+        window.__timelines["pompe-reel"] = mainTl;
+
+        const times = { intro: 0, cause: 6, symptoms: 12, cta: 19 };
+
+        mainTl.to(".progress-bar", { width: "100%", duration: 24, ease: "none" }, 0);
+
+        // Animaciones Simplificadas y Centradas
+        [
+            { id: "#scene-intro", t: times.intro, next: times.cause },
+            { id: "#scene-cause", t: times.cause, next: times.symptoms },
+            { id: "#scene-symptoms", t: times.symptoms, next: times.cta },
+            { id: "#scene-cta", t: times.cta, next: 24 }
+        ].forEach(sc => {
+            mainTl.to(sc.id, { opacity: 1, duration: 0.4 }, sc.t);
+            mainTl.from(sc.id + " > *", { y: 30, opacity: 0, stagger: 0.2, duration: 0.6 }, sc.t + 0.2);
+            if (sc.next < 24) {
+                mainTl.to(sc.id, { opacity: 0, duration: 0.4 }, sc.next - 0.4);
+            }
+        });
+    </script>
+</body>
+</html>
